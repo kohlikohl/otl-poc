@@ -1,11 +1,24 @@
 {
   "name": "otl-poc",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/main.js",
   "repository": "git@github.com:kohlikohl/otl-poc.git",
   "author": "<matt@kohlikohl.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "npx webpack serve"
+  },
   "dependencies": {
-    "express": "^4.17.3"
+    "@types/react-dom": "^18.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "ts-loader": "^9.2.8",
+    "typescript": "^4.6.3",
+    "webpack": "^5.72.0",
+    "webpack-dev-server": "^4.8.1"
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.9.2"
   }
 }
