@@ -165,6 +165,11 @@
     "@types/mime" "^1"
     "@types/node" "*"
 
+"@types/sharedworker@^0.0.70":
+  version "0.0.70"
+  resolved "https://registry.yarnpkg.com/@types/sharedworker/-/sharedworker-0.0.70.tgz#e8e5bd6be118e8f5c2b0f5c109498771b3e66539"
+  integrity sha512-UuRpCDDGFkyISSddCt4qUzx7XR0H2hDouoeBOtDflX1ri8MzjDV/81jjWhMAV5x1JrLH1TsUltg8DQQD/iFzmA==
+
 "@types/sockjs@^0.3.33":
   version "0.3.33"
   resolved "https://registry.yarnpkg.com/@types/sockjs/-/sockjs-0.3.33.tgz#570d3a0b99ac995360e3136fd6045113b1bd236f"

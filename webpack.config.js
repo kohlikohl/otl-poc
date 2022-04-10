@@ -2,8 +2,13 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
-  entry: "./src/client.tsx",
+  entry: {
+    main: "./src/client.tsx",
+    "shared-worker-pulsar": "./src/workers/shared-worker-pulsar.ts",
+    "shared-worker-cdl": "./src/workers/shared-worker-cdl.ts",
+  },
   mode: "development",
+  devtool: "inline-source-map",
   module: {
     rules: [
       {
@@ -16,10 +21,6 @@ module.exports = {
   resolve: {
     extensions: [".tsx", ".ts", ".js"],
   },
-  output: {
-    filename: "bundle.js",
-    path: path.resolve(__dirname, "dist"),
-  },
   devServer: {
     static: {
       directory: path.join(__dirname, "public"),
@@ -27,5 +28,5 @@ module.exports = {
     compress: true,
     port: 9000,
   },
-  plugins: [new HtmlWebpackPlugin()],
+  plugins: [new HtmlWebpackPlugin({ chunks: ["main"] })],
 };
