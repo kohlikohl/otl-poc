@@ -1,0 +1,65 @@
+version: "3.7"
+services:
+  # Collector
+  collector:
+    image: otel/opentelemetry-collector-contrib:latest
+    command: ["--config=/conf/collector-config.yaml"]
+    volumes:
+      - ./collector-config.yaml:/conf/collector-config.yaml
+    ports:
+      - "9464:9464"
+      - "55680:55680"
+      - "55681:55681"
+    depends_on:
+      - jaeger-all-in-one
+      - zipkin-all-in-one
+    networks:
+      - signaling-backend-network
+  # Jaeger
+  jaeger-all-in-one:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "5775:5775/udp"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "5778:5778"
+      - "16686:16686"
+      - "14250:14250"
+      - "14268:14268"
+      - "14269:14269"
+    networks:
+      - signaling-backend-network
+  # Zipkin
+  zipkin-all-in-one:
+    image: openzipkin/zipkin:latest
+    ports:
+      - "9411:9411"
+    networks:
+      - signaling-backend-network
+  # Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus.yaml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - signaling-backend-network
+  # Jaeger hotrod - sample project
+  hotrod:
+    image: jaegertracing/example-hotrod:latest
+    ports:
+      - "8080:8080"
+    command: ["all"]
+    environment:
+      - JAEGER_AGENT_HOST=jaeger-all-in-one
+      # Note: if your application is using Node.js Jaeger Client, you need port 6832,
+      #       unless issue https://github.com/jaegertracing/jaeger/issues/1596 is resolved.
+      - JAEGER_AGENT_PORT=6831
+    networks:
+      - signaling-backend-network
+    depends_on:
+      - jaeger-all-in-one
+
+networks:
+  signaling-backend-network:

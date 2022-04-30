@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { ManageWorker } from "./manage-worker";
+import { ManageWorker } from "./utils/manage-worker";
 
 export const App = () => {
   useEffect(() => {

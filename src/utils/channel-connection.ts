@@ -1,9 +1,13 @@
 export class ChannelConnection {
   private _id;
 
-  constructor(private _port: MessagePort, private _from: string) {
+  constructor(
+    private _port: MessagePort,
+    private _from: string,
+    private _to: string
+  ) {
     this._id = Math.floor(Math.random() * 1000000) + 1;
-    console.log(`[${this._id}/${this._from}] connected`);
+    this._logMessage("connected");
     _port.addEventListener("message", this._onMessage.bind(this));
   }
 
@@ -16,9 +20,10 @@ export class ChannelConnection {
   }
 
   private _onMessage(e: MessageEvent) {
-    console.log(
-      `[${this._id}/${this._from}]`,
-      "Message received " + ": " + JSON.stringify(e.data)
-    );
+    this._logMessage("Message received " + ": " + JSON.stringify(e.data));
+  }
+
+  private _logMessage(...messages: any) {
+    console.log(`[${this._to}:${this._id}/<-${this._from}]`, ...messages);
   }
 }
