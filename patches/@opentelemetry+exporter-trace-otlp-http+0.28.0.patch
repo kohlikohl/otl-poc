@@ -1,0 +1,13 @@
+diff --git a/node_modules/@opentelemetry/exporter-trace-otlp-http/package.json b/node_modules/@opentelemetry/exporter-trace-otlp-http/package.json
+index 9ae205e..121638b 100644
+--- a/node_modules/@opentelemetry/exporter-trace-otlp-http/package.json
++++ b/node_modules/@opentelemetry/exporter-trace-otlp-http/package.json
+@@ -3,7 +3,7 @@
+   "version": "0.28.0",
+   "description": "OpenTelemetry Collector Trace Exporter allows user to send collected traces to the OpenTelemetry Collector",
+   "main": "build/src/index.js",
+-  "module": "build/esm/index.js",
++  "module": "build/esnext/index.js",
+   "esnext": "build/esnext/index.js",
+   "types": "build/src/index.d.ts",
+   "repository": "open-telemetry/opentelemetry-js",

@@ -1,0 +1,17 @@
+diff --git a/node_modules/@opentelemetry/otlp-exporter-base/build/src/platform/browser/OTLPExporterBrowserBase.js b/node_modules/@opentelemetry/otlp-exporter-base/build/src/platform/browser/OTLPExporterBrowserBase.js
+index a8e427a..de34a09 100644
+--- a/node_modules/@opentelemetry/otlp-exporter-base/build/src/platform/browser/OTLPExporterBrowserBase.js
++++ b/node_modules/@opentelemetry/otlp-exporter-base/build/src/platform/browser/OTLPExporterBrowserBase.js
+@@ -41,10 +41,10 @@ class OTLPExporterBrowserBase extends OTLPExporterBase_1.OTLPExporterBase {
+         }
+     }
+     onInit() {
+-        window.addEventListener('unload', this.shutdown);
++        // window.addEventListener('unload', this.shutdown);
+     }
+     onShutdown() {
+-        window.removeEventListener('unload', this.shutdown);
++        // window.removeEventListener('unload', this.shutdown);
+     }
+     send(items, onSuccess, onError) {
+         if (this._shutdownOnce.isCalled) {

@@ -19,6 +19,10 @@ export class ChannelConnection {
     this._port.postMessage(message);
   }
 
+  public listen(cb: (e: MessageEvent) => void) {
+    this._port.addEventListener("message", cb);
+  }
+
   private _onMessage(e: MessageEvent) {
     this._logMessage("Message received " + ": " + JSON.stringify(e.data));
   }
