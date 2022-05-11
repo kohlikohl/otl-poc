@@ -15,7 +15,10 @@ export class WorkerExporter implements SpanExporter {
     resultCallback: (result: ExportResult) => void
   ): void {
     // const req = toOTLPExportTraceServiceRequest(spans, this._exporter);
-    this._workers.pulsar.postMessage({ type: "span", spans: toJSON(spans) });
+    this._workers.pulsar.postMessage({
+      type: "span",
+      spans: toJSON(spans),
+    });
   }
 
   shutdown(): Promise<void> {

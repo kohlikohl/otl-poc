@@ -34,6 +34,15 @@ const incomingMessageHandler = (e: MessageEvent) => {
     const spans = fromJSON(e.data.spans);
     console.log("--> spans:", spans);
 
+    /**
+     * !! IMPORTANT !!
+     * We have to patch the `spanContext` function as it gets lost
+     * during serialization.
+     */
+    spans.forEach((span) => {
+      span.spanContext = () => span._spanContext;
+    });
+
     otlpExporter.send(
       spans,
       () => {
