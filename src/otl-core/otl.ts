@@ -7,6 +7,7 @@ import { WorkerExporter } from "./workerExporter";
 import { DocumentLoadInstrumentation } from "@opentelemetry/instrumentation-document-load";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import { IManagedWorker } from "../workers/worker-helper";
+import { context, trace, Span, SpanStatusCode } from "@opentelemetry/api";
 
 export const initOtl = (workers: IManagedWorker) => {
   const provider = new WebTracerProvider({
@@ -30,4 +31,29 @@ export const initOtl = (workers: IManagedWorker) => {
   registerInstrumentations({
     instrumentations: [new DocumentLoadInstrumentation()],
   });
+
+  const tracer = provider.getTracer("custom-tracer");
+
+  return {
+    trace: function <F extends (...args: any) => ReturnType<F>>(
+      name: string,
+      func: F
+    ): Promise<ReturnType<F>> {
+      var singleSpan = tracer.startSpan(name);
+      return context.with(
+        trace.setSpan(context.active(), singleSpan),
+        async () => {
+          try {
+            const result = await func();
+            singleSpan.end();
+            return result;
+          } catch (error) {
+            singleSpan.setStatus({ code: SpanStatusCode.ERROR });
+            singleSpan.end();
+            throw error;
+          }
+        }
+      );
+    },
+  };
 };
