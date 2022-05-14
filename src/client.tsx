@@ -7,21 +7,25 @@ import { startWorkers } from "./workers/worker-helper";
 const workers = startWorkers();
 const otl = initOtl(workers);
 
-const app = document.createElement("div");
-document.body.appendChild(app);
+otl.trace("default", () => {
+  const app = document.createElement("div");
+  document.body.appendChild(app);
 
-const root = createRoot(app);
-root.render(<App />);
+  const root = createRoot(app);
+  root.render(<App />);
 
-otl.trace("Client test trace", async () => {
-  for (let i = 0; i < 10; i++) {
-    setTimeout(() => {
-      otl.trace(`nested test trace ${i}`, () => {
-        let j = 0;
-        while (j < 1000000 * i) {
-          j++;
-        }
-      });
-    }, 1000);
-  }
+  otl.trace("core", () => {
+    for (let i = 0; i < 10; i++) {
+      setTimeout(() => {
+        otl.trace(`task ${i}`, () => {
+          let j = 0;
+          while (j < 1000000 * i) {
+            j++;
+          }
+        });
+      }, 500);
+    }
+
+    return new Promise((resolve) => setTimeout(resolve, 1000));
+  });
 });
