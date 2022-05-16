@@ -35,6 +35,12 @@ export const initOtl = (workers: IManagedWorker) => {
   const tracer = provider.getTracer("custom-tracer");
 
   return {
+    getUIContext: (defaultContext) => {
+      const uiSpan = tracer.startSpan(`React Root`, undefined, defaultContext);
+      uiSpan.end();
+      return trace.setSpan(defaultContext, uiSpan);
+    },
+    tracer,
     trace: function <F extends (...args: any) => ReturnType<F>>(
       name: string,
       func: F
